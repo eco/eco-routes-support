@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@rhinestone/module-sdk':
+        specifier: ^0.2.8
+        version: 0.2.8(viem@2.23.14(typescript@5.8.2))
     devDependencies:
       '@types/eslint-plugin-mocha':
         specifier: ^10.4.0
@@ -608,6 +612,11 @@ packages:
   '@pnpm/npm-conf@2.3.1':
     resolution: {integrity: sha512-c83qWb22rNRuB0UaVCI0uRPNRr8Z0FWnEIvT47jiHAmOIUHbBOg5XvV7pM5x+rKn9HRpjxquDbXYSXr3fAKFcw==}
     engines: {node: '>=12'}
+
+  '@rhinestone/module-sdk@0.2.8':
+    resolution: {integrity: sha512-azCJrJqTEJJgheidxv6vT6tKURXvbQecsRWF4AESjA4UIUlJj3ds3BJMHWCdPjJooDKFgdMQBRveFpzmmveorA==}
+    peerDependencies:
+      viem: ^2.0.0
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -2367,6 +2376,9 @@ packages:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
 
+  solady@0.0.235:
+    resolution: {integrity: sha512-JUEXLDG7ag3HmqUnrDG7ilhafH6R9bFPpwV63O2kH4UbnS2+gRGEOqqy4k01O7tHjo3MWkDD0cpG+UY9pjy/fQ==}
+
   solhint-plugin-eco@0.1.0:
     resolution: {integrity: sha512-4x4xq14tcNr+wK7wkzXWgwyee0tBIoMO9C4ePPjBprRKBiegiPAV9pZL0Z2D5sfInXsOiPm3mU4yRxQ0zn/Okg==}
 
@@ -3232,6 +3244,12 @@ snapshots:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
+
+  '@rhinestone/module-sdk@0.2.8(viem@2.23.14(typescript@5.8.2))':
+    dependencies:
+      solady: 0.0.235
+      tslib: 2.8.1
+      viem: 2.23.14(typescript@5.8.2)
 
   '@rtsao/scc@1.1.0': {}
 
@@ -5347,6 +5365,8 @@ snapshots:
       ansi-styles: 4.3.0
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
+
+  solady@0.0.235: {}
 
   solhint-plugin-eco@0.1.0: {}
 

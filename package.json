@@ -67,5 +67,8 @@
     "onlyBuiltDependencies": [
       "esbuild"
     ]
+  },
+  "dependencies": {
+    "@rhinestone/module-sdk": "^0.2.8"
   }
 }
