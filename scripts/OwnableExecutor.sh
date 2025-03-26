@@ -40,8 +40,7 @@ jq -c 'to_entries[]' "$CHAIN_JSON" | while IFS= read -r entry; do
         echo "🔄 Deploying Ownable Executor on Chain ID: $chainID"
         cast send 0x000000000069E2a187AEFFb852bF3cCdC95151B2 \
             0x03b79c840000000000000000000000000000000000000000000000000000000000001337dbca873b13c783c0c9c6ddfc4280e505580bf6cc3dac83f8a0f7b44acaafca4f \
-            --rpc-url "$RPC_URL" --private-key "$PRIVATE_KEY" 
-            || 
+            --rpc-url "$RPC_URL" --private-key "$PRIVATE_KEY" || 
             { 
                 echo "❌ Failed to deploy Ownable Executor on Chain ID: $chainID" >&2
                 exit 1
