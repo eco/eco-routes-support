@@ -7,12 +7,6 @@ if [ -f .env ]; then
     set +a
 fi
 
-# Ensure CHAIN_IDS is set
-if [ -z "$CHAIN_IDS" ]; then
-    echo "❌ Error: CHAIN_IDS variable is empty! Set it in the .env file."
-    exit 1
-fi
-
 # Ensure chain.json exists
 CHAIN_JSON="./scripts/assets/chain.json"
 if [ ! -f "$CHAIN_JSON" ]; then
@@ -20,15 +14,11 @@ if [ ! -f "$CHAIN_JSON" ]; then
     exit 1
 fi
 
-# Convert comma-separated CHAIN_IDS into an array
-IFS=',' read -r -a CHAINS <<< "$CHAIN_IDS"
+jq -c 'to_entries[]' "$CHAIN_JSON" | while IFS= read -r entry; do
+    chainID=$(echo "$entry" | jq -r '.key')
+    value=$(echo "$entry" | jq -c '.value')
 
-# Read chain.json into a variable
-CHAIN_DATA=$(cat "$CHAIN_JSON")
-
-# Loop through each chain and deploy Ownable Executor
-for CHAIN_ID in "${CHAINS[@]}"; do
-    RPC_URL=$(echo "$CHAIN_DATA" | jq -r --arg CHAIN_ID "$CHAIN_ID" '.[$CHAIN_ID].url')
+    RPC_URL=$(echo "$value" | jq -c '.url')
 
     if [[ "$RPC_URL" == "null" || -z "$RPC_URL" ]]; then
         echo "⚠️  Warning: No RPC URL found for Chain ID $CHAIN_ID. Skipping..."
@@ -42,18 +32,22 @@ for CHAIN_ID in "${CHAINS[@]}"; do
         echo "❌ Error: ALCHEMY_API_KEY is required but not set."
         exit 1
     fi
+    echo "RPC_URL: $RPC_URL"
 
     EXECUTOR_ADDRESS="0x4Fd8d57b94966982B62e9588C27B4171B55E8354"
     CODE=$(cast code $EXECUTOR_ADDRESS --rpc-url "$RPC_URL")
-
     if [ "$CODE" == "0x" ]; then
-        echo "🔄 Deploying Ownable Executor on Chain ID: $CHAIN_ID"
+        echo "🔄 Deploying Ownable Executor on Chain ID: $chainID"
         cast send 0x000000000069E2a187AEFFb852bF3cCdC95151B2 \
             0x03b79c840000000000000000000000000000000000000000000000000000000000001337dbca873b13c783c0c9c6ddfc4280e505580bf6cc3dac83f8a0f7b44acaafca4f \
-            --rpc-url "$RPC_URL" --private-key "$PRIVATE_KEY"
-        echo "✅ Ownable Executor deployed on Chain ID: $CHAIN_ID"
+            --rpc-url "$RPC_URL" --private-key "$PRIVATE_KEY" 
+            || 
+            { 
+                echo "❌ Failed to deploy Ownable Executor on Chain ID: $chainID" >&2
+                exit 1
+            }
+        echo "✅ Ownable Executor deployed on Chain ID: $chainID"
     else
-        echo "✅ Ownable Executor already deployed on Chain ID: $CHAIN_ID"
+        echo "✅ Ownable Executor already deployed on Chain ID: $chainID"
     fi
-
 done

@@ -21,6 +21,10 @@ jobs:
       run: forge --version
     - name: Build Forge Project
       run: forge build  
+    - name: 🔧 Grant Execute Permission to OwnableExecutor.sh
+      run: chmod +x scripts/OwnableExecutor.sh
+    - name: 🔄 Deploy OwnableExecutor.sh
+      run: ./scripts/OwnableExecutor.sh
   # deploy:
   #   name: Deploy Contracts
   #   needs: prepack
