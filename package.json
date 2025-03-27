@@ -12,10 +12,10 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "forge build",
-    "test": "yarn test:forge && yarn test:ts",
+    "test": "pnpm test:forge && pnpm test:ts",
     "test:forge": "forge test -vvv",
     "test:ts": "jest",
-    "format": "concurrently 'npm:format:*'",
+    "format": "concurrently 'pnpm:format:*'",
     "format:eslint": "eslint --fix --ext .js,.ts,.tsx .",
     "format:prettier": "prettier --write .",
     "format:solhint": "solhint --fix --noPrompt src/**/*.sol",
