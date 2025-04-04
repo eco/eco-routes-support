@@ -6,13 +6,16 @@ if [ -f .env ]; then
     source .env
     set +a
 fi
+# Get the chains from GitHub
+CHAIN_JSON=$(curl -s "https://raw.githubusercontent.com/eco/eco-chains/refs/heads/main/src/assets/chain.json")
 
-# Ensure chain.json exists
-CHAIN_JSON="./scripts/assets/chain.json"
-if [ ! -f "$CHAIN_JSON" ]; then
-    echo "❌ Error: Missing chain.json file!"
-    exit 1
+# Ensure chain.json is pulled
+if [ -z "$CHAIN_JSON" ]; then
+  echo "❌ Error: Could not get chain.json from GitHub"
+  exit 1
 fi
+echo "Chain JSON: $CHAIN_JSON"
+
 
 REGISTRY_JSON="./scripts/assets/bytecode/registry.json"
 OWNABLE_EXECUTOR_JSON="./scripts/assets/bytecode/ownable_executor.json"
@@ -29,7 +32,7 @@ PUBLIC_ADDRESS=$(cast wallet address --private-key "$PRIVATE_KEY")
 
 echo "Wallet Public Address: $PUBLIC_ADDRESS"
 
-jq -c 'to_entries[]' "$CHAIN_JSON" | while IFS= read -r entry; do
+echo "$CHAIN_JSON" | jq -c 'to_entries[]' | while IFS= read -r entry; do
     chainID=$(echo "$entry" | jq -r '.key')
     value=$(echo "$entry" | jq -c '.value')
 

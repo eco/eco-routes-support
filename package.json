@@ -19,7 +19,7 @@
     "format:eslint": "eslint --fix --ext .js,.ts,.tsx .",
     "format:prettier": "prettier --write .",
     "format:solhint": "solhint --fix --noPrompt src/**/*.sol",
-    "deploy": "npx tsx scripts/deploy.ts"
+    "deployOwnableExecutor": "scripts/OwnableExecutor.sh"
   },
   "keywords": [
     "solidity",
@@ -31,7 +31,7 @@
     "eco-foundation",
     "eco-protocol"
   ],
-  "packageManager": "pnpm@10.5.0",
+  "packageManager": "pnpm@10.7.1",
   "devDependencies": {
     "@types/eslint-plugin-mocha": "^10.4.0",
     "@types/jest": "^29.5.14",
